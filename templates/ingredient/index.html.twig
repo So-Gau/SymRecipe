@@ -1,20 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello IngredientController!{% endblock %}
+{% block title %}{{ parent() }}Mes Ingredient!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="container mt-4">
+        <h1>Mes Ingrédient</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        <div class="count mt-4">
+            Il y a 
+            {{ ingredients.getTotalItemCount }}
+            ingrédients au total
+        </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/code/symfony 6/synrecipe/src/Controller/IngredientController.php'|file_link(0) }}">src/Controller/IngredientController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/code/symfony 6/synrecipe/templates/ingredient/index.html.twig'|file_link(0) }}">templates/ingredient/index.html.twig</a></code></li>
-    </ul>
-</div>
+        <table class="table table-hover mt-4">
+            <thead>
+                <tr>
+                <th scope="col">Numéro</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Date de création</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ingredient in ingredients %}
+                    <tr class="table-light">
+                        <th scope="row">{{ ingredient.id}}</th>
+                        <td>{{ ingredient.name}}</td>
+                        <td>{{ ingredient.price}}</td>
+                        <td>{{ ingredient.createdAt|date("m/d/Y")}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation d-flex justify-content-center mt-4">
+            {{ knp_pagination_render(ingredients) }}
+        </div>
+    </div>
 {% endblock %}

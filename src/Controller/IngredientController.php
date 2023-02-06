@@ -2,17 +2,26 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\IngredienRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class IngredientController extends AbstractController
 {
     #[Route('/ingredient', name: 'app_ingredient')]
-    public function index(): Response
+    public function index(IngredienRepository $repository,PaginatorInterface $paginator, Request $request): Response
     {
+        $ingredients = $paginator->paginate(
+            $repository->findAll(),
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render('ingredient/index.html.twig', [
-            'controller_name' => 'IngredientController',
+            'ingredients' => $ingredients
         ]);
     }
 }
