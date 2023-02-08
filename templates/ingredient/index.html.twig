@@ -4,36 +4,42 @@
 
 {% block body %}
     <div class="container mt-4">
-        <h1>Mes Ingrédient</h1>
+        {% if not ingredients.items is same as([]) %}
+            <h1>Mes Ingrédient</h1>
 
-        <div class="count mt-4">
-            Il y a 
-            {{ ingredients.getTotalItemCount }}
-            ingrédients au total
-        </div>
+            <div class="count mt-4">
+                <h6>
+                    Il y a 
+                    {{ ingredients.getTotalItemCount }}
+                    ingrédients au total
+                </h6> 
+            </div>
 
-        <table class="table table-hover mt-4">
-            <thead>
-                <tr>
-                <th scope="col">Numéro</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Prix</th>
-                <th scope="col">Date de création</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for ingredient in ingredients %}
-                    <tr class="table-light">
-                        <th scope="row">{{ ingredient.id}}</th>
-                        <td>{{ ingredient.name}}</td>
-                        <td>{{ ingredient.price}}</td>
-                        <td>{{ ingredient.createdAt|date("m/d/Y")}}</td>
+            <table class="table table-hover mt-2">
+                <thead>
+                    <tr>
+                    <th scope="col">Numéro</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prix</th>
+                    <th scope="col">Date de création</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <div class="navigation d-flex justify-content-center mt-4">
-            {{ knp_pagination_render(ingredients) }}
-        </div>
+                </thead>
+                <tbody>
+                    {% for ingredient in ingredients %}
+                        <tr class="table-light">
+                            <th scope="row">{{ ingredient.id}}</th>
+                            <td>{{ ingredient.name}}</td>
+                            <td>{{ ingredient.price}}</td>
+                            <td>{{ ingredient.createdAt|date("m/d/Y")}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="navigation d-flex justify-content-center mt-4">
+                {{ knp_pagination_render(ingredients) }}
+            </div>
+        {% else %}
+            <h6>Il n'y a pas d'ingrédients</h6>
+        {% endif %}
     </div>
 {% endblock %}
