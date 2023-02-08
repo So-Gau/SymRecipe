@@ -6,9 +6,11 @@ use App\Repository\IngredienRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\This;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: IngredienRepository::class)]
+#[UniqueEntity('name')]
 class Ingredien
 {
     #[ORM\Id]
@@ -31,6 +33,7 @@ class Ingredien
     #[Assert\NotNull()]
     private ?\DateTimeImmutable $createdAt = null;
 
+    //---constructor
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
